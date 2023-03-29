@@ -7,7 +7,7 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git credentialsId: 'gitclone', url: 'https://github.com/nice2pandu/myweb.git'
+              git credentialsId: 'gitclone', url: 'https://github.com/MeghanaHimanshu/myweb.git'
             }
         }
         stage("Maven Build"){
@@ -16,15 +16,15 @@ pipeline{
                 sh "mv target/*.war target/myweb.war"
             }
         }
-        stage("deploy-dev"){
+        stage("deployment"){
             steps{
-                sshagent(['deployment']) {
+               sshagent(['privatekey']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.5.48:/home/ec2-user/apache-tomcat-9.0.69/webapps/
+                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.94.74:/home/ec2-user/apache-tomcat-9.0.69/webapps/
                     
-                    ssh ec2-user@172.31.5.48 /home/ec2-user/apache-tomcat-9.0.69/bin/shutdown.sh
+                    ssh ec2-user@172.31.94.74 /home/ec2-user/apache-tomcat-9.0.69/bin/shutdown.sh
                     
-                    ssh ec2-user@172.31.5.48 /home/ec2-user/apache-tomcat-9.0.69/bin/startup.sh
+                    ssh ec2-user@172.31.94.74 /home/ec2-user/apache-tomcat-9.0.69/bin/startup.sh
                 
                 """
             }

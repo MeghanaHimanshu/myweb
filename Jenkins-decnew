@@ -18,13 +18,13 @@ pipeline{
         }
         stage("deployment"){
             steps{
-               sshagent(['privatekey']) {
+               sshagent(['d48a4ff9-54ee-4899-a2ec-f714c0a136fa']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.94.74:/home/ec2-user/apache-tomcat9/webapps/
+                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.56.223:/home/ec2-user/apache-tomcat9/webapps/
                     
-                    ssh ec2-user@172.31.94.74 /home/ec2-user/apache-tomcat9/bin/shutdown.sh
+                    ssh ec2-user@172.31.56.223/home/ec2-user/apache-tomcat9/bin/shutdown.sh
                     
-                    ssh ec2-user@172.31.94.74 /home/ec2-user/apache-tomcat9/bin/startup.sh
+                    ssh ec2-user@172.31.56.223 /home/ec2-user/apache-tomcat9/bin/startup.sh
                 
                 """
             }
